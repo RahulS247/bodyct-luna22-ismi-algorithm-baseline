@@ -2,7 +2,7 @@ from typing import Dict
 
 
 import tensorflow.keras
-from tensorflow.keras.applications import VGG16, ResNet50, EfficientNetB0
+from tensorflow.keras.applications import VGG19, ResNet50, EfficientNetB0
 
 import SimpleITK
 import numpy as np
@@ -37,7 +37,7 @@ class Nodule_classifier:
         self.input_spacing = 0.2
 
         # load malignancy model
-        self.model_malignancy = ResNet50(
+        self.model_malignancy = EfficientNetB0(
             include_top=True,
             weights=None,
             input_tensor=None,
@@ -47,13 +47,13 @@ class Nodule_classifier:
             classifier_activation="softmax",
         )
         self.model_malignancy.load_weights(
-            "/opt/algorithm/models/resnet50_classbal_malignancy_best_val_accuracy.h5",
+            "/opt/algorithm/models/efficientb0_classbal_malignancy_best_val_accuracy.h5",
             by_name=True,
             skip_mismatch=True,
         )
 
         # load texture model
-        self.model_nodule_type = VGG16(
+        self.model_nodule_type = VGG19(
             include_top=True,
             weights=None,
             input_tensor=None,
@@ -63,7 +63,7 @@ class Nodule_classifier:
             classifier_activation="softmax",
         )
         self.model_nodule_type.load_weights(
-            "/opt/algorithm/models/vgg16_adam_augnoduletype_best_val_accuracy.h5",
+            "/opt/algorithm/models/vgg19_adam_noclassbal_noduletype_best_val_accuracy.h5",
             by_name=True,
             skip_mismatch=True,
         )
